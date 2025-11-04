@@ -1,0 +1,117 @@
+# Emergency Detection Context for Rhino Speech-to-Intent
+# This context file defines the emergency-related intents and slots
+
+context emergency_detection {
+    # Emergency intents
+    intent emergency {
+        # Direct emergency calls
+        "help"
+        "emergency"
+        "call help"
+        "i need help"
+        "assistance"
+        "call nine one one"
+        "call police"
+        "call ambulance"
+        "medical emergency"
+        "fire emergency"
+        
+        # Emergency with location
+        "help me i am at [location]"
+        "emergency at [location]"
+        "need help at [location]"
+        
+        # Emergency with type
+        "medical emergency"
+        "fire emergency"
+        "police emergency"
+        "heart attack"
+        "choking"
+        "falling"
+        "accident"
+        
+        # Emergency with urgency
+        "urgent help"
+        "immediate help"
+        "help now"
+        "emergency now"
+    }
+    
+    intent cancel_emergency {
+        "cancel"
+        "false alarm"
+        "stop emergency"
+        "cancel help"
+        "i am okay"
+        "everything is fine"
+        "no help needed"
+        "mistake"
+    }
+    
+    intent confirm_emergency {
+        "yes"
+        "confirm"
+        "send help"
+        "i need help"
+        "still emergency"
+        "yes emergency"
+        "confirm emergency"
+    }
+    
+    # Slots for context
+    slot location {
+        "home"
+        "work"
+        "car"
+        "street"
+        "hospital"
+        "store"
+        "park"
+        "bathroom"
+        "bedroom"
+        "kitchen"
+        "living room"
+        "office"
+        "garage"
+        "basement"
+        "upstairs"
+        "downstairs"
+        "outside"
+        "inside"
+    }
+    
+    slot emergency_type {
+        "medical"
+        "fire"
+        "police"
+        "accident"
+        "heart attack"
+        "stroke"
+        "choking"
+        "falling"
+        "bleeding"
+        "breathing"
+        "chest pain"
+        "allergic reaction"
+        "poisoning"
+        "overdose"
+        "assault"
+        "robbery"
+        "break in"
+        "domestic violence"
+        "car accident"
+        "slip and fall"
+    }
+    
+    slot urgency {
+        "urgent"
+        "immediate"
+        "now"
+        "quickly"
+        "fast"
+        "asap"
+        "right away"
+        "critical"
+        "life threatening"
+    }
+}

@@ -1,60 +1,397 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<?xml version="1.0" encoding="utf-8"?><?xml version="1.0" encoding="utf-8"?><?xml version="1.0" encoding="utf-8"?>
 
-    <!-- Permissions -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"><manifest xmlns:android="http://schemas.android.com/apk/res/android"<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+
+    <!-- Core permissions for emergency detection -->    xmlns:tools="http://schemas.android.com/tools">    xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />    <!-- Core permissions for emergency detection -->    <!-- Core permissions for emergency detection -->
+
+
+
+    <!-- Location permissions for emergency services -->    <uses-permission android:name="android.permission.INTERNET" />    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- Audio permissions for voice detection -->
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+
+
+    <!-- Notification permissions -->
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />    <!-- Location permissions for emergency services -->    <!-- Location permissions for emergency services -->
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- Foreground service permissions -->
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+
+
+    <!-- Communication permissions -->
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <uses-permission android:name="android.permission.SEND_SMS" />    <!-- Audio permissions for voice detection -->    <!-- Audio permissions for voice detection -->
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Boot receiver for auto-start -->
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+
+
+    <!-- Required for Google Play Services -->
+
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <!-- Notification permissions -->    <!-- Notification permissions -->
+
     <application
+
+        android:name=".VasateyApplication"    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+
+        android:icon="@mipmap/ic_launcher"    <uses-permission android:name="android.permission.VIBRATE" />    <uses-permission android:name="android.permission.VIBRATE" />
+
         android:label="Vasatey"
+
         android:roundIcon="@mipmap/ic_launcher_round"
+
         android:supportsRtl="true"
-        android:theme="@style/Theme.Material3.DayNight.NoActionBar">
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAGX525s-_OgjgjEEj1wKpYZvPnUd1ZA8M" />
+        android:theme="@style/Theme.Material3.DayNight.NoActionBar"    <!-- Foreground service permissions -->    <!-- Foreground service permissions -->
 
-        <!-- Activities -->
-        <activity android:name=".SplashActivity" android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".MainActivity" />
+        android:networkSecurityConfig="@xml/network_security_config"
+
+        android:usesCleartextTraffic="false">    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+
+
+        <!-- Main Activity -->    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
 
         <activity
-            android:name=".AlertDetailsActivity"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
 
-        <!-- Services -->
-        <service
-            android:name=".ListeningService"
-            android:foregroundServiceType="microphone"
-            android:exported="false" />
+            android:name=".ui.activities.MainActivity"    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+
+            android:exported="true"
+
+            android:launchMode="singleTop"
+
+            android:screenOrientation="portrait">
+
+            <intent-filter>    <!-- Communication permissions -->    <!-- Communication permissions -->
+
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />    <uses-permission android:name="android.permission.CALL_PHONE" />    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+            </intent-filter>
+
+        </activity>    <uses-permission android:name="android.permission.SEND_SMS" />    <uses-permission android:name="android.permission.SEND_SMS" />
+
+
+
+        <!-- Firebase Cloud Messaging Service -->    <uses-permission android:name="android.permission.READ_PHONE_STATE" />    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
         <service
-            android:name=".MyFirebaseMessagingService"
+
+            android:name=".services.fcm.VasateyFirebaseMessagingService"
+
+            android:exported="false">
+
+            <intent-filter>    <!-- Boot receiver for auto-start -->    <!-- Storage permissions -->
+
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+
+            </intent-filter>    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" 
+
+        </service>
+
+        android:maxSdkVersion="28" />
+
+        <!-- Voice Detection Service -->
+
+        <service    <!-- Required for Google Play Services -->    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" 
+
+            android:name=".services.voice.VoiceDetectionService"
+
+            android:enabled="true"    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />        android:maxSdkVersion="32" />
+
+            android:exported="false"
+
+            android:foregroundServiceType="microphone" />
+
+
+
+        <!-- Firebase Messaging default values -->    <application    <!-- Boot receiver for auto-start -->
+
+        <meta-data
+
+            android:name="com.google.firebase.messaging.default_notification_icon"        android:name=".VasateyApplication"    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+            android:resource="@drawable/ic_notification" />
+
+        <meta-data        android:allowBackup="true"
+
+            android:name="com.google.firebase.messaging.default_notification_color"
+
+            android:resource="@color/primary" />        android:icon="@mipmap/ic_launcher"    <!-- Required for Google Play Services -->
+
+        <meta-data
+
+            android:name="com.google.firebase.messaging.default_notification_channel_id"        android:label="Vasatey"    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+            android:value="general_notifications" />
+
+        android:roundIcon="@mipmap/ic_launcher_round"
+
+    </application>
+
+        android:supportsRtl="true"    <application
+
+</manifest>
+        android:theme="@style/Theme.Material3.DayNight.NoActionBar"        android:name=".VasateyApplication"
+
+        android:networkSecurityConfig="@xml/network_security_config"        android:allowBackup="true"
+
+        android:usesCleartextTraffic="false">        android:icon="@mipmap/ic_launcher"
+
+        android:label="Vasatey"
+
+        <!-- Main Activity -->        android:roundIcon="@mipmap/ic_launcher_round"
+
+        <activity        android:supportsRtl="true"
+
+            android:name=".ui.activities.MainActivity"        android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+
+            android:exported="true"        android:networkSecurityConfig="@xml/network_security_config"
+
+            android:launchMode="singleTop"        android:usesCleartextTraffic="false">
+
+            android:screenOrientation="portrait">
+
+            <intent-filter>        <!-- Main Activity -->
+
+                <action android:name="android.intent.action.MAIN" />        <activity
+
+                <category android:name="android.intent.category.LAUNCHER" />            android:name=".ui.activities.MainActivity"
+
+            </intent-filter>            android:exported="true"
+
+        </activity>            android:launchMode="singleTop"
+
+            android:screenOrientation="portrait">
+
+        <!-- Firebase Cloud Messaging Service -->            <intent-filter>
+
+        <service                <action android:name="android.intent.action.MAIN" />
+
+            android:name=".services.fcm.VasateyFirebaseMessagingService"                <category android:name="android.intent.category.LAUNCHER" />
+
+            android:exported="false">            </intent-filter>
+
+            <intent-filter>            
+
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />            <!-- Handle emergency deep links -->
+
+            </intent-filter>            <intent-filter android:autoVerify="true">
+
+        </service>                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+        <!-- Firebase Messaging default values -->                <category android:name="android.intent.category.BROWSABLE" />
+
+        <meta-data                <data android:scheme="vasatey" android:host="emergency" />
+
+            android:name="com.google.firebase.messaging.default_notification_icon"            </intent-filter>
+
+            android:resource="@drawable/ic_notification" />        </activity>
+
+        <meta-data
+
+            android:name="com.google.firebase.messaging.default_notification_color"        <!-- Emergency Alert Activity -->
+
+            android:resource="@color/primary" />        <activity
+
+        <meta-data            android:name=".ui.activities.EmergencyAlertActivity"
+
+            android:name="com.google.firebase.messaging.default_notification_channel_id"            android:exported="false"
+
+            android:value="general_notifications" />            android:launchMode="singleInstance"
+
+            android:showOnLockScreen="true"
+
+    </application>            android:turnScreenOn="true"
+
+            android:screenOrientation="portrait" />
+
+</manifest>
+        <!-- Settings Activity -->
+        <activity
+            android:name=".ui.activities.SettingsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.activities.MainActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- Authentication Activity -->
+        <activity
+            android:name=".ui.activities.AuthActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- Firebase Cloud Messaging Service -->
+        <service
+            android:name=".services.fcm.VasateyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
+        <!-- Voice Detection Service -->
+        <service
+            android:name=".services.voice.VoiceDetectionService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="microphone" />
+
+        <!-- Location Tracking Service -->
+        <service
+            android:name=".services.location.LocationTrackingService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="location" />
+
+        <!-- Emergency Monitoring Service -->
+        <service
+            android:name=".services.emergency.EmergencyMonitoringService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="microphone|location" />
+
+        <!-- Boot Receiver -->
+        <receiver
+            android:name=".receivers.BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Emergency Action Receiver -->
+        <receiver
+            android:name=".receivers.EmergencyActionReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.sriox.vasatey.EMERGENCY_ALERT_RECEIVED" />
+                <action android:name="com.sriox.vasatey.CANCEL_EMERGENCY" />
+                <action android:name="com.sriox.vasatey.CONFIRM_EMERGENCY" />
+                <action android:name="com.sriox.vasatey.ALERT_RESPONSE_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Battery Optimization Receiver -->
+        <receiver
+            android:name=".receivers.BatteryOptimizationReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_OKAY" />
+                <action android:name="android.intent.action.BATTERY_LOW" />
+                <action android:name="android.intent.action.POWER_CONNECTED" />
+                <action android:name="android.intent.action.POWER_DISCONNECTED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Work Manager for background tasks -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
+
+        <!-- File Provider for sharing files -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- Firebase Messaging default values -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/primary" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="general_notifications" />
+
+        <!-- Firebase Analytics -->
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="true" />
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="true" />
+
+        <!-- Google Play Services -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <!-- Picovoice license (if required) -->
+        <meta-data
+            android:name="picovoice_license_key"
+            android:value="${PICOVOICE_LICENSE_KEY}" />
+
     </application>
+
 </manifest>
