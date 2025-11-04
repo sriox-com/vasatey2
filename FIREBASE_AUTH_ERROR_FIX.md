@@ -1,8 +1,10 @@
-# Firebase Authentication Error Fix Guide
+# Firebase Cloud Messaging (FCM) Setup Error Fix Guide
 
 ## 🚨 Error: "Requests from this Android client are blocked"
 
-This error occurs when Firebase cannot authenticate your Android app. Here's how to fix it:
+This error occurs when Firebase cannot authenticate your Android app for FCM (Cloud Messaging). Here's how to fix it:
+
+**Note**: This app uses Supabase for authentication, NOT Firebase Auth. Firebase is only used for FCM (push notifications).
 
 ### 🔧 Step-by-Step Fix:
 
