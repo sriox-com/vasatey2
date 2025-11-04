@@ -64,12 +64,21 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private fun saveTokenToSupabase(token: String) {
         val currentUser = authHelper.getCurrentUser()
         if (currentUser != null && currentUser.email != null) {
+            AppLogger.logInfo("FCM", "Updating FCM token for user", "User: ${currentUser.email}")
             CoroutineScope(Dispatchers.IO).launch {
                 dbHelper.updateFCMToken(currentUser.id, token).fold(
-                    onSuccess = { Log.d("FCM", "FCM token updated successfully.") },
-                    onFailure = { e -> Log.w("FCM", "Error updating FCM token", e) }
+                    onSuccess = { 
+                        AppLogger.logSuccess("FCM", "FCM token updated successfully", "User: ${currentUser.email}")
+                        Log.d("FCM", "FCM token updated successfully.") 
+                    },
+                    onFailure = { e -> 
+                        AppLogger.logError("FCM", "Error updating FCM token", "User: ${currentUser.email}, Error: ${e.message}")
+                        Log.w("FCM", "Error updating FCM token", e) 
+                    }
                 )
             }
+        } else {
+            AppLogger.logWarning("FCM", "Cannot save FCM token - no authenticated user", "")
         }
     }
 

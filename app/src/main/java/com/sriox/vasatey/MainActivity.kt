@@ -113,6 +113,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_profile -> {
                 replaceFragment(ProfileFragment())
             }
+            R.id.nav_debug -> {
+                replaceFragment(DebugLogsFragment())
+            }
             R.id.nav_refresh_token -> {
                 refreshFCMToken()
             }
@@ -210,14 +213,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Log.d("MainActivity", "Delete token result: ${deleteTask.isSuccessful}")
                 if (deleteTask.exception != null) {
                     Log.e("MainActivity", "Delete token error: ${deleteTask.exception?.message}")
-                }
-                
-                // Try to clear FCM app instance as well
-                try {
-                    val firebaseApp = com.google.firebase.FirebaseApp.getInstance()
-                    Log.d("MainActivity", "Firebase app instance: ${firebaseApp.name}")
-                } catch (e: Exception) {
-                    Log.e("MainActivity", "Firebase app access error: ${e.message}")
                 }
                 
                 // Wait and get a new token

@@ -59,6 +59,19 @@ class SupabaseAuthHelper {
     suspend fun signIn(email: String, password: String): Result<UserInfo> {
         return try {
             withContext(Dispatchers.IO) {
+                AppLogger.logInfo("SUPABASE_AUTH", "Starting Supabase sign in", "Email: $email")
+                
+                // Test Supabase connection first
+                try {
+                    val response = supabase.postgrest.from("user_profiles").select().limit(1)
+                    AppLogger.logSuccess("SUPABASE_AUTH", "Supabase connection test successful", "Can access database")
+                } catch (e: Exception) {
+                    AppLogger.logError("SUPABASE_AUTH", "Supabase connection test failed", "Error: ${e.message}")
+                }
+                
+                // Attempt authentication
+                AppLogger.logInfo("SUPABASE_AUTH", "Attempting Supabase authentication", "")
+                
                 supabase.auth.signInWith(Email) {
                     this.email = email
                     this.password = password
@@ -66,14 +79,41 @@ class SupabaseAuthHelper {
                 
                 val currentUser = supabase.auth.currentUserOrNull()
                 if (currentUser != null) {
+                    AppLogger.logSuccess("SUPABASE_AUTH", "Supabase sign in successful", "User ID: ${currentUser.id}")
                     Result.success(currentUser)
                 } else {
+                    AppLogger.logError("SUPABASE_AUTH", "Failed to get user after signin", "User is null after authentication")
                     Result.failure(Exception("Failed to get user after signin"))
                 }
             }
         } catch (e: Exception) {
+            AppLogger.logError("SUPABASE_AUTH", "Supabase sign in failed", 
+                "Error: ${e.message}\nType: ${e.javaClass.simpleName}\nCause: ${e.cause?.message}", e)
             Log.e("SupabaseAuth", "Sign in failed", e)
-            Result.failure(e)
+            
+            // Provide more specific error messages for Supabase
+            val errorMessage = when {
+                e.message?.contains("Requests from this Android") == true -> 
+                    "Supabase authentication blocked. This may be due to:\n" +
+                    "1. Supabase project RLS (Row Level Security) policies\n" +
+                    "2. API key restrictions in Supabase dashboard\n" +
+                    "3. CORS configuration issues\n" +
+                    "4. Invalid Supabase project URL or API key\n" +
+                    "Original error: ${e.message}"
+                e.message?.contains("Invalid login credentials") == true -> 
+                    "Invalid email or password. Please check your Supabase credentials."
+                e.message?.contains("Email not confirmed") == true -> 
+                    "Please check your email and confirm your account in Supabase."
+                e.message?.contains("400") == true ->
+                    "Bad request to Supabase API. Check email format and credentials."
+                e.message?.contains("403") == true ->
+                    "Forbidden - Check Supabase RLS policies and API permissions."
+                e.message?.contains("401") == true ->
+                    "Unauthorized - Invalid Supabase API key or authentication."
+                else -> "Supabase authentication error: ${e.message ?: "Unknown error"}"
+            }
+            
+            Result.failure(Exception(errorMessage))
         }
     }
     

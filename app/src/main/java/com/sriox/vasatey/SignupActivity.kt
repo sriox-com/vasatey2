@@ -40,27 +40,64 @@ class SignupActivity : AppCompatActivity() {
             binding.signupBtn.isEnabled = false
             binding.signupBtn.text = "Creating account..."
 
-            FirebaseMessaging.getInstance().token.addOnSuccessListener { fcmToken ->
-                lifecycleScope.launch {
+            // Create user profile without FCM token initially
+            lifecycleScope.launch {
+                try {
+                    // First, try to get FCM token but don't fail if it doesn't work
+                    var fcmToken: String? = null
+                    try {
+                        AppLogger.logInfo("SIGNUP", "Attempting to get FCM token during signup", "User: $email")
+                        FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+                            fcmToken = token
+                            AppLogger.logSuccess("SIGNUP", "FCM token obtained during signup", "Token: ${token.take(20)}...")
+                        }.addOnFailureListener { e ->
+                            AppLogger.logWarning("SIGNUP", "FCM token not available during signup", "Will retry after login - Error: ${e.message}")
+                        }
+                        
+                        // Wait a moment for the token, but don't block forever
+                        kotlinx.coroutines.delay(2000)
+                    } catch (e: Exception) {
+                        AppLogger.logWarning("SIGNUP", "FCM token generation failed", "Will proceed without token - Error: ${e.message}")
+                    }
+
                     val userProfile = UserProfile(
                         email = email,
                         fullName = name,
-                        fcmToken = fcmToken,
+                        fcmToken = fcmToken, // This can be null, will be updated later
                         phoneNumber = mobileNumber,
                         emergencyContact = mobileNumber, // Use mobile as emergency contact for now
                         medicalInfo = "School: $school, Pet: $pet" // Combine school and pet info
                     )
 
-                    Log.d("SignupActivity", "Creating user profile: $userProfile")
+                    AppLogger.logInfo("SIGNUP", "Creating user profile", "Email: $email, FCM Token: ${if (fcmToken != null) "Available" else "Not available"}")
+                    
                     authHelper.signUp(email, password, userProfile).fold(
                         onSuccess = { user ->
-                            Log.d("SignupActivity", "User created successfully: ${user.email}")
+                            AppLogger.logSuccess("SIGNUP", "User created successfully", "Email: ${user.email}")
+                            
+                            // If we didn't get FCM token during signup, try to get it now and update
+                            if (fcmToken == null) {
+                                AppLogger.logInfo("SIGNUP", "Attempting to get FCM token after signup", "")
+                                try {
+                                    FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+                                        lifecycleScope.launch {
+                                            AppLogger.logSuccess("SIGNUP", "FCM token obtained after signup", "Updating user profile")
+                                            // Update the user profile with the FCM token
+                                            val dbHelper = SupabaseDatabaseHelper()
+                                            dbHelper.updateFCMToken(user.id, token)
+                                        }
+                                    }
+                                } catch (e: Exception) {
+                                    AppLogger.logWarning("SIGNUP", "FCM token still not available", "User can update manually later")
+                                }
+                            }
+                            
                             Toast.makeText(this@SignupActivity, "Signup successful!", Toast.LENGTH_SHORT).show()
                             startActivity(Intent(this@SignupActivity, LoginActivity::class.java))
                             finish()
                         },
                         onFailure = { exception ->
-                            Log.e("SignupActivity", "Signup failed", exception)
+                            AppLogger.logError("SIGNUP", "Signup failed", "Error: ${exception.message}")
                             binding.signupBtn.isEnabled = true
                             binding.signupBtn.text = "Sign Up"
                             Toast.makeText(
@@ -70,12 +107,12 @@ class SignupActivity : AppCompatActivity() {
                             ).show()
                         }
                     )
+                } catch (e: Exception) {
+                    AppLogger.logError("SIGNUP", "Signup process exception", "Error: ${e.message}")
+                    binding.signupBtn.isEnabled = true
+                    binding.signupBtn.text = "Sign Up"
+                    Toast.makeText(this@SignupActivity, "Signup failed: ${e.message}", Toast.LENGTH_LONG).show()
                 }
-            }.addOnFailureListener { e ->
-                binding.signupBtn.isEnabled = true
-                binding.signupBtn.text = "Sign Up"
-                Log.e("SignupActivity", "Failed to get FCM token", e)
-                Toast.makeText(this, "Could not get notification token.", Toast.LENGTH_LONG).show()
             }
         }
 
