@@ -113,6 +113,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_profile -> {
                 replaceFragment(ProfileFragment())
             }
+            R.id.nav_debug -> {
+                replaceFragment(DebugLogsFragment())
+            }
             R.id.nav_refresh_token -> {
                 refreshFCMToken()
             }

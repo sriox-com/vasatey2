@@ -12,7 +12,16 @@
           "package_name": "com.sriox.vasatey"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "100205738499-hq1meiovgece661dlnnj634rc2h693p2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sriox.vasatey",
+            "certificate_hash": "028bcd131b060ba2315c4f0e17be713a2db3c29d"
+          }
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAGX525s-_OgjgjEEj1wKpYZvPnUd1ZA8M"
