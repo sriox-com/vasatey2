@@ -511,28 +511,15 @@ class DebugLogsFragment : Fragment() {
                 val supabase = SupabaseClient.client
                 addLog("SUCCESS", "AUTH", "Supabase client initialized", "URL: ${supabase.supabaseUrl}")
                 
-                // Step 2: Check Firebase configuration  
-                addLog("INFO", "AUTH", "Checking Firebase configuration", "")
-                try {
-                    val firebaseApp = com.google.firebase.FirebaseApp.getInstance()
-                    val options = firebaseApp.options
-                    addLog("SUCCESS", "AUTH", "Firebase configuration", 
-                        "Project ID: ${options.projectId}\n" +
-                        "App ID: ${options.applicationId}\n" +
-                        "API Key: ${options.apiKey?.take(20)}...")
-                } catch (e: Exception) {
-                    addLog("ERROR", "AUTH", "Firebase configuration failed", "Error: ${e.message}")
-                }
-                
-                // Step 3: Check package name
+                // Step 2: Check package name
                 val packageName = requireContext().packageName
                 addLog("INFO", "AUTH", "App package name", "Package: $packageName")
                 
-                // Step 4: Check certificate fingerprint
+                // Step 3: Check certificate fingerprint
                 addLog("INFO", "AUTH", "App certificate fingerprint", 
                     "SHA-1: 02:8B:CD:13:1B:06:0B:A2:31:5C:4F:0E:17:BE:71:3A:2D:B3:C2:9D")
                 
-                // Step 5: Test current authentication state
+                // Step 4: Test current authentication state
                 addLog("INFO", "AUTH", "Checking current authentication state", "")
                 
                 val currentUser = authHelper.getCurrentUser()
