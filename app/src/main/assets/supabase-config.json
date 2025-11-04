@@ -1,0 +1,8 @@
+{
+  "url": "https://your-project.supabase.co",
+  "anonKey": "your-anon-key-here",
+  "serviceRoleKey": "your-service-role-key-here",
+  "enableRealtime": true,
+  "enableAuth": true,
+  "schema": "public"
+}

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Production configuration -->
+    <domain-config cleartextTrafficPermitted="false">
+        <!-- Supabase domains -->
+        <domain includeSubdomains="true">supabase.co</domain>
+        <domain includeSubdomains="true">supabase.io</domain>
+        
+        <!-- Firebase domains -->
+        <domain includeSubdomains="true">googleapis.com</domain>
+        <domain includeSubdomains="true">google.com</domain>
+        <domain includeSubdomains="true">firebase.com</domain>
+        <domain includeSubdomains="true">firebaseapp.com</domain>
+        <domain includeSubdomains="true">fcm.googleapis.com</domain>
+        
+        <!-- Vercel domains -->
+        <domain includeSubdomains="true">vercel.app</domain>
+        <domain includeSubdomains="true">vercel.com</domain>
+        
+        <!-- Picovoice domains -->
+        <domain includeSubdomains="true">picovoice.ai</domain>
+        
+        <!-- Emergency services domains -->
+        <domain includeSubdomains="true">emergency.gov</domain>
+        
+        <trust-anchors>
+            <certificates src="system"/>
+        </trust-anchors>
+    </domain-config>
+    
+    <!-- Base configuration for all other domains -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system"/>
+            <certificates src="user"/>
+        </trust-anchors>
+    </base-config>
+    
+    <!-- Debug configuration (only for debug builds) -->
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="system"/>
+            <certificates src="user"/>
+        </trust-anchors>
+    </debug-overrides>
+</network-security-config>

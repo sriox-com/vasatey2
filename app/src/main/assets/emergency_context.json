@@ -1,0 +1,49 @@
+{
+  "context": {
+    "expressions": {
+      "help_me": "help me",
+      "call_police": "call [the] police",
+      "call_ambulance": "call [an] ambulance",
+      "call_fire": "call [the] fire department",
+      "emergency": "emergency",
+      "medical_emergency": "medical emergency",
+      "fire_emergency": "fire emergency",
+      "general_help": "(i need help | help | assistance)"
+    },
+    "intents": {
+      "help": {
+        "slots": [],
+        "utterances": [
+          "$help_me",
+          "$general_help"
+        ]
+      },
+      "police": {
+        "slots": [],
+        "utterances": [
+          "$call_police"
+        ]
+      },
+      "medical": {
+        "slots": [],
+        "utterances": [
+          "$call_ambulance",
+          "$medical_emergency"
+        ]
+      },
+      "fire": {
+        "slots": [],
+        "utterances": [
+          "$call_fire",
+          "$fire_emergency"
+        ]
+      },
+      "emergency": {
+        "slots": [],
+        "utterances": [
+          "$emergency"
+        ]
+      }
+    }
+  }
+}
