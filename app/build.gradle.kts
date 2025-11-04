@@ -21,8 +21,8 @@ android {
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
-            isShrinkResources = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -46,6 +46,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -59,21 +60,21 @@ dependencies {
     // --- Firebase (Only Messaging for push notifications) ---
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging)
-    implementation("com.google.firebase:firebase-messaging-ktx")
-    implementation("com.google.firebase:firebase-installations-ktx")
+    implementation(libs.firebase.messaging.ktx)
+    implementation(libs.firebase.installations.ktx)
 
     // --- ✅ Supabase SDK ---
-    implementation("io.github.jan-tennert.supabase:postgrest-kt:2.5.2")
-    implementation("io.github.jan-tennert.supabase:storage-kt:2.5.2")
-    implementation("io.github.jan-tennert.supabase:realtime-kt:2.5.2")
-    implementation("io.github.jan-tennert.supabase:gotrue-kt:2.5.2")
+    implementation(libs.supabase.postgrest.kt)
+    implementation(libs.supabase.storage.kt)
+    implementation(libs.supabase.realtime.kt)
+    implementation(libs.supabase.gotrue.kt)
 
     // --- Ktor & Serialization ---
-    implementation("io.ktor:ktor-client-android:2.3.5")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+    implementation(libs.ktor.client.android)
+    implementation(libs.kotlinx.serialization.json)
 
     // --- Picovoice (Wake Word Engine) ---
-    implementation("ai.picovoice:porcupine-android:3.0.2")
+    implementation(libs.picovoice.porcupine)
 
     // --- Lifecycle + Coroutines ---
     implementation(libs.androidx.lifecycle.runtime.ktx)
