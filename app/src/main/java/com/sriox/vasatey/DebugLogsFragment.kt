@@ -14,8 +14,6 @@ import com.sriox.vasatey.databinding.FragmentDebugLogsBinding
 import com.sriox.vasatey.models.VercelNotificationRequest
 import com.sriox.vasatey.network.RetrofitInstance
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.installations.FirebaseInstallations
-import com.google.firebase.FirebaseApp
 import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -245,48 +243,14 @@ class DebugLogsFragment : Fragment() {
 
     private fun testFcmTokensWithTroubleshooting() {
         lifecycleScope.launch {
-            addLog("INFO", "FCM", "=== COMPREHENSIVE FCM TROUBLESHOOTING ===")
+            addLog("INFO", "FCM", "=== FCM TOKEN TESTING ===")
             
             try {
-                // Step 1: Check Firebase App initialization
-                addLog("INFO", "FCM", "Checking Firebase initialization", "")
-                try {
-                    val firebaseApp = com.google.firebase.FirebaseApp.getInstance()
-                    addLog("SUCCESS", "FCM", "Firebase App initialized", "Name: ${firebaseApp.name}, Options: ${firebaseApp.options.projectId}")
-                } catch (e: Exception) {
-                    addLog("ERROR", "FCM", "Firebase not initialized", "Error: ${e.message}")
-                    addLog("WARN", "FCM", "Firebase initialization failed", 
-                        "Check:\n" +
-                        "1. google-services.json in app/ folder\n" +
-                        "2. Google Services plugin applied\n" +
-                        "3. Package name matches Firebase project")
-                    return@launch
-                }
-                
-                // Step 2: Check package name
+                // Step 1: Check package name
                 val packageName = requireContext().packageName
-                addLog("INFO", "FCM", "App package name", "Package: $packageName\nShould match Firebase console")
+                addLog("INFO", "FCM", "App package name", "Package: $packageName")
                 
-                // Step 3: Try to get Installation ID first
-                addLog("INFO", "FCM", "Getting Firebase Installation ID", "")
-                try {
-                    val installationId = com.google.firebase.installations.FirebaseInstallations.getInstance().id.await()
-                    addLog("SUCCESS", "FCM", "Firebase Installation ID obtained", "ID: ${installationId.take(20)}...")
-                } catch (e: Exception) {
-                    addLog("ERROR", "FCM", "Firebase Installation ID failed", "Error: ${e.javaClass.simpleName}: ${e.message}")
-                    
-                    if (e.message?.contains("FIS_AUTH_ERROR") == true) {
-                        addLog("ERROR", "FCM", "FIS_AUTH_ERROR - Authentication failed", 
-                            "Possible causes:\n" +
-                            "1. google-services.json missing or corrupted\n" +
-                            "2. API key invalid or project mismatch\n" +
-                            "3. Package name doesn't match Firebase project\n" +
-                            "4. Firebase project not properly configured\n" +
-                            "5. Network connectivity issues")
-                    }
-                }
-                
-                // Step 4: Try FCM token with multiple approaches
+                // Step 2: Try FCM token retrieval
                 addLog("INFO", "FCM", "Attempting FCM token retrieval", "")
                 
                 // Approach 1: Direct token request

@@ -60,7 +60,6 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging)
     implementation("com.google.firebase:firebase-messaging-ktx")
-    implementation("com.google.firebase:firebase-installations-ktx")
 
     // --- ✅ Supabase SDK ---
     implementation("io.github.jan-tennert.supabase:postgrest-kt:2.5.2")

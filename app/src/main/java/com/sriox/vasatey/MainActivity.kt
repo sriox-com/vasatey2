@@ -215,14 +215,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     Log.e("MainActivity", "Delete token error: ${deleteTask.exception?.message}")
                 }
                 
-                // Try to clear FCM app instance as well
-                try {
-                    val firebaseApp = com.google.firebase.FirebaseApp.getInstance()
-                    Log.d("MainActivity", "Firebase app instance: ${firebaseApp.name}")
-                } catch (e: Exception) {
-                    Log.e("MainActivity", "Firebase app access error: ${e.message}")
-                }
-                
                 // Wait and get a new token
                 android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
                     messaging.token.addOnCompleteListener { newTokenTask ->
