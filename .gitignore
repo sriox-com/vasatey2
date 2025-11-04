@@ -13,3 +13,13 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Android SDK (should not be in repo)
+android-sdk/
+
+# Build artifacts
+app/debug/
+app/release/
+
+# Backup files
+*.backup
